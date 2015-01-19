@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple markers</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/fernandojunior/prototype_class.js/v1.0.0/prototype_class.min.js"></script>
+    <script src="google_maps.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script>
+        
+    function initialize () {
+    	
+        Map.create({    			
+            canvas: "map-canvas", // map canvas. use html element id or DOM element
+            register: 'default', // register into container with id == default
+            zoom: 1,
+            center: [-25.363882, 131.044922],				
+        });
+    	
+    	// draw a marker in default map
+        var marker = Marker.create({
+            map: 'default',
+            address: "Campina Grande, PB, Brasil",
+            title: "Hello World"        
+        });
+
+        marker.events = {
+            'click': function () {
+
+                var infoWindow = InfoWindow.create({
+                    content: '<button id="testbutton"> click </button>',
+                });
+			
+                infoWindow.on('domready', function() {
+                    $('#testbutton').on('click', function (e) {
+                        e.preventDefault();
+                        alert('OK');
+                    });						
+                });
+					
+                infoWindow.resource.open(marker.resource.map, marker.resource);
+	
+            }
+        };
+
+    }
+
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="map-canvas"></div>
+  </body>
+</html>
